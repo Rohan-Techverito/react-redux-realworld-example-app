@@ -33,12 +33,32 @@ export default (state = {}, action) => {
         return { ...state, inProgress: true };
       }
       break;
-    case ADD_TAG:
+    case ADD_TAG: {
+      const trimmedInput = (state.tagInput || '').trim();
+      if (trimmedInput === '') {
+        return {
+          ...state,
+          tagInput: ''
+        };
+      }
+
+      const isDuplicate = (state.tagList || []).some(
+        tag => tag.toLowerCase() === trimmedInput.toLowerCase()
+      );
+
+      if (isDuplicate) {
+        return {
+          ...state,
+          tagInput: ''
+        };
+      }
+
       return {
         ...state,
-        tagList: state.tagList.concat([state.tagInput]),
+        tagList: state.tagList.concat([trimmedInput]),
         tagInput: ''
       };
+    }
     case REMOVE_TAG:
       return {
         ...state,
