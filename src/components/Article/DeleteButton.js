@@ -10,6 +10,11 @@ const mapDispatchToProps = dispatch => ({
 
 const DeleteButton = props => {
   const del = () => {
+    const confirmed = window.confirm('Are you sure you want to delete this comment?');
+    if (!confirmed) {
+      return;
+    }
+
     const payload = agent.Comments.delete(props.slug, props.commentId);
     props.onClick(payload, props.commentId);
   };
