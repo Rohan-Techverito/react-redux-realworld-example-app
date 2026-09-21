@@ -5,31 +5,31 @@ import {
 } from '../constants/actionTypes';
 
 describe('editor reducer', () => {
-  it('ADD_TAG: does not add empty tag input (empty string)', () => {
+  it('ADD_TAG: does not add empty tag input (empty string) and clears tagInput', () => {
     const initialState = {
       tagInput: '',
-      tagList: []
+      tagList: ['react']
     };
 
     const nextState = reducer(initialState, { type: ADD_TAG });
 
-    expect(nextState.tagList).toEqual([]);
+    expect(nextState.tagList).toEqual(['react']);
     expect(nextState.tagInput).toBe('');
   });
 
-  it('ADD_TAG: does not add empty tag input (whitespace only)', () => {
+  it('ADD_TAG: does not add empty tag input (whitespace only) and clears tagInput', () => {
     const initialState = {
       tagInput: '   ',
-      tagList: []
+      tagList: ['react']
     };
 
     const nextState = reducer(initialState, { type: ADD_TAG });
 
-    expect(nextState.tagList).toEqual([]);
+    expect(nextState.tagList).toEqual(['react']);
     expect(nextState.tagInput).toBe('');
   });
 
-  it('ADD_TAG: does not add case-insensitive duplicate (React vs react)', () => {
+  it('ADD_TAG: does not add case-insensitive duplicate (React vs react) and clears tagInput', () => {
     const initialState = {
       tagInput: 'React',
       tagList: ['react']
@@ -41,7 +41,7 @@ describe('editor reducer', () => {
     expect(nextState.tagInput).toBe('');
   });
 
-  it('ADD_TAG: trims and stores canonical tag value', () => {
+  it('ADD_TAG: trims and stores canonical tag value (trim before storing, preserve original casing after trim)', () => {
     const initialState = {
       tagInput: ' vue ',
       tagList: ['react']
